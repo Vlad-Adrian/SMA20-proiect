@@ -1,0 +1,20 @@
+<resources>
+    <string name="app_name">PassKeeper</string>
+
+    //Splash Screen
+    <string name="logo_description">Logo of the app</string>
+
+    //Login Screen
+    <string name="welcome_message">Welcome!</string>
+    <string name="welcome_message2">Please login in order to proceed further</string>
+    <string name="email">Email</string>
+    <string name="password">Password </string>
+    <string name="login">Login</string>
+    <string name="register">Register</string>
+    <string name="forgot_pass">Forgot password?</string>
+
+    //Register page
+    <string name="register_title">Fill the fields in order to register</string>
+    <string name="register_password_repeat">Repeat Password</string>
+    <string name="create_account">Create account</string>
+</resources>

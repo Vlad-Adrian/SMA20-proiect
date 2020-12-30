@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_blue"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context=".ui.RegisterActivity">
+
+    <TextView
+        android:id="@+id/registerTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:fontFamily="@font/opensans_extrabold"
+        android:text="@string/register_title"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/registerEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:autofillHints="emailAddress"
+        android:background="@drawable/rounded_corners"
+        android:fontFamily="@font/opensans_regular"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
+        android:padding="6dp" />
+
+    <EditText
+        android:id="@+id/registerPassword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:autofillHints="@string/password"
+        android:background="@drawable/rounded_corners"
+        android:fontFamily="@font/opensans_regular"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:padding="6dp" />
+
+    <EditText
+        android:id="@+id/registerPasswordRepeat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="40dp"
+        android:autofillHints="emailAddress"
+        android:background="@drawable/rounded_corners"
+        android:fontFamily="@font/opensans_regular"
+        android:hint="@string/register_password_repeat"
+        android:inputType="textPassword"
+        android:padding="6dp" />
+
+    <TextView
+        android:id="@+id/createAccountButton"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:layout_marginTop="15dp"
+        android:background="@color/background_blue"
+        android:clickable="true"
+        android:focusable="true"
+        android:fontFamily="@font/opensans_bold"
+        android:text="@string/create_account"
+        android:textColor="@color/text_color"
+        android:textSize="16sp" />
+
+</LinearLayout>

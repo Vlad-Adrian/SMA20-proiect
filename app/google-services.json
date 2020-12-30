@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "220198868982",
+    "project_id": "passkeeper-2e3c4",
+    "storage_bucket": "passkeeper-2e3c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220198868982:android:2f7c5b4f9d4dcd6fcf59d7",
+        "android_client_info": {
+          "package_name": "com.vlad.passKeeper"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220198868982-hafsdb7d9i8i1m67qh42aa2te71au0f6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXXv2ESt8CQlbWvXAa-ITW6DXvcXRKvGc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220198868982-hafsdb7d9i8i1m67qh42aa2te71au0f6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
