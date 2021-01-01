@@ -47,4 +47,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.2.1'
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.afollestad.material-dialogs:core:3.2.1'
+    implementation 'com.google.firebase:firebase-database-ktx'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.45'
+
 }

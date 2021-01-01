@@ -24,6 +24,7 @@
             android:name=".ui.RegisterActivity"
             android:theme="@style/Theme.PassKeeper.Launcher" />
         <activity android:name="com.vlad.passKeeper.MainActivity" />
+        <activity android:name="com.vlad.passKeeper.ui.PasswordAdd" />
     </application>
 
 </manifest>

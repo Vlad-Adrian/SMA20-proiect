@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.vlad.passKeeper.ui.LoginActivity
+import com.vlad.passKeeper.ui.PasswordAdd
 import com.vlad.passKeeper.ui.fragments.NotesFragment
 import com.vlad.passKeeper.ui.fragments.PasswordsFragment
 
@@ -24,12 +26,13 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
 
         navigation = findViewById(R.id.navigation)
         toolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(toolbar)
-        toolbar.setTitle("PassKeeper")
+        toolbar.title = "PassKeeper"
 
         fragmentChooser(PasswordsFragment.newInstance(), "PasswordsFragment")
         navigation.setOnNavigationItemSelectedListener {
@@ -70,7 +73,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.add -> {
                 if (fragmentManager?.isVisible == true)
-                    Toast.makeText(this, "Add pass", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, PasswordAdd::class.java))
                 else Toast.makeText(this, "Add notes", Toast.LENGTH_SHORT).show()
                 true
             }
@@ -99,5 +102,10 @@ class MainActivity : AppCompatActivity() {
             }
             else -> false
         }
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        this.finish()
     }
 }

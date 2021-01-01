@@ -17,4 +17,14 @@
     <string name="register_title">Fill the fields in order to register</string>
     <string name="register_password_repeat">Repeat Password</string>
     <string name="create_account">Create account</string>
+
+    //Password add page
+    <string name="name">Name</string>
+    <string name="username">Username</string>
+    <string name="copy">Copy</string>
+    <string name="link">Website Link</string>
+    <string name="note">Notes</string>
+
+    //Password page
+    <string name="emptyDb">No Passwords added yet</string>
 </resources>
