@@ -28,4 +28,7 @@
 
     //Password page
     <string name="emptyDb">No Passwords added yet</string>
+
+    <string name="search">Search</string>
+    <string name="emptySearch">Nothing searched yet</string>
 </resources>

@@ -14,6 +14,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.vlad.passKeeper.ui.LoginActivity
 import com.vlad.passKeeper.ui.PasswordAdd
+import com.vlad.passKeeper.ui.SearchActivity
 import com.vlad.passKeeper.ui.fragments.NotesFragment
 import com.vlad.passKeeper.ui.fragments.PasswordsFragment
 
@@ -79,7 +80,7 @@ class MainActivity : AppCompatActivity() {
 
             R.id.search -> {
                 if (fragmentManager?.isVisible == true)
-                    Toast.makeText(this, "Search pass", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, SearchActivity::class.java))
                 else Toast.makeText(this, "Search notes", Toast.LENGTH_SHORT).show()
                 true
             }
