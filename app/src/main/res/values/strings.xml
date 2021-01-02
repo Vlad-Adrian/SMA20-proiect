@@ -12,6 +12,8 @@
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="forgot_pass">Forgot password?</string>
+    <string name="send">Send</string>
+    <string name="reset">Do you want to reset password?</string>
 
     //Register page
     <string name="register_title">Fill the fields in order to register</string>

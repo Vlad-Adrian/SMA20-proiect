@@ -4,11 +4,15 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.afollestad.materialdialogs.MaterialDialog
+import com.afollestad.materialdialogs.input.getInputField
+import com.afollestad.materialdialogs.input.input
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.vlad.passKeeper.MainActivity
@@ -22,7 +26,8 @@ class LoginActivity : AppCompatActivity() {
     private var registerButton: TextView? = null
     private var forgotPassword: TextView? = null
     private lateinit var auth: FirebaseAuth
-    private lateinit var sharedPreferences:SharedPreferences
+    private lateinit var sharedPreferences: SharedPreferences
+    private lateinit var mailText: String
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -53,6 +58,44 @@ class LoginActivity : AppCompatActivity() {
                 )
             )
         }
+        forgotPassword?.setOnClickListener {
+            if (CommonUsed.checkConnectivity(this))
+                MaterialDialog(this).show {
+                    title(R.string.reset)
+                    input(waitForPositiveButton = false, hint = "Email") { dialog, text ->
+                        val inputField = dialog.getInputField()
+                        val isValid = validateEmail(text)
+                        inputField.error = if (isValid) {
+                            mailText = text.toString()
+                            null
+                        } else "Incorrect mail format"
+                    }
+                    positiveButton(R.string.send) {
+                        FirebaseAuth.getInstance().sendPasswordResetEmail(mailText)
+                            .addOnCompleteListener { task ->
+                                if (task.isSuccessful) {
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Mail sent successfully",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                } else {
+                                    Toast.makeText(
+                                        baseContext,
+                                        "Mail has not been sent",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                    }
+                }
+        }
+    }
+
+    private fun validateEmail(email: CharSequence): Boolean {
+        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email)
+            .matches()
+
     }
 
     private fun setFirstUse() {
