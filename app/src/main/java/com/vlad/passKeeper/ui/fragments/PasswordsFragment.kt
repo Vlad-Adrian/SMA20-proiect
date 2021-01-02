@@ -61,18 +61,19 @@ class PasswordsFragment : Fragment() {
                 } else {
                     recyclerView.visibility = View.VISIBLE
                     textView.visibility = View.GONE
-                }
-                adapterList.clear()
-                val hashMap = createHashMap(passwords)
-                for (nameHashed in hashMap.keys) {
-                    val nameItem = NameItem()
-                    nameItem.name = nameHashed
-                    adapterList.add(nameItem)
 
-                    for (passwordHashed in hashMap[nameHashed]!!) {
-                        val generalItem = GeneralItem()
-                        generalItem.password = passwordHashed
-                        adapterList.add(generalItem)
+                    adapterList.clear()
+                    val hashMap = createHashMap(passwords)
+                    for (nameHashed in hashMap.keys) {
+                        val nameItem = NameItem()
+                        nameItem.name = nameHashed
+                        adapterList.add(nameItem)
+
+                        for (passwordHashed in hashMap[nameHashed]!!) {
+                            val generalItem = GeneralItem()
+                            generalItem.password = passwordHashed
+                            adapterList.add(generalItem)
+                        }
                     }
                 }
                 adapter.notifyDataSetChanged()

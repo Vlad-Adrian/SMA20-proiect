@@ -1,6 +1,8 @@
 package com.vlad.passKeeper.ui
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
@@ -8,8 +10,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import com.vlad.passKeeper.MainActivity
 import com.vlad.passKeeper.R
+import com.vlad.passKeeper.utils.CommonUsed
 
 class LoginActivity : AppCompatActivity() {
     private var email: EditText? = null
@@ -18,11 +22,14 @@ class LoginActivity : AppCompatActivity() {
     private var registerButton: TextView? = null
     private var forgotPassword: TextView? = null
     private lateinit var auth: FirebaseAuth
+    private lateinit var sharedPreferences:SharedPreferences
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
+        sharedPreferences = getPreferences(Context.MODE_PRIVATE)
+        setFirstUse()
 
         email = findViewById(R.id.email)
         pass = findViewById(R.id.password)
@@ -32,7 +39,12 @@ class LoginActivity : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
 
-        loginButton?.setOnClickListener { login(email?.text.toString(), pass?.text.toString()) }
+        loginButton?.setOnClickListener {
+            if (CommonUsed.checkConnectivity(this)) login(
+                email?.text.toString(),
+                pass?.text.toString()
+            )
+        }
         registerButton?.setOnClickListener {
             startActivity(
                 Intent(
@@ -40,6 +52,16 @@ class LoginActivity : AppCompatActivity() {
                     RegisterActivity::class.java
                 )
             )
+        }
+    }
+
+    private fun setFirstUse() {
+        if (!sharedPreferences.getBoolean("firstStart", false)) {
+            with(sharedPreferences.edit()) {
+                putBoolean("firstStart", true)
+                apply()
+            }
+            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         }
     }
 

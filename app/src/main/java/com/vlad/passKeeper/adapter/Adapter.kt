@@ -17,6 +17,8 @@ import com.vlad.passKeeper.models.GeneralItem
 import com.vlad.passKeeper.models.ListItem
 import com.vlad.passKeeper.models.NameItem
 import com.vlad.passKeeper.ui.LoginActivity
+import com.vlad.passKeeper.ui.PasswordAdd
+import com.vlad.passKeeper.utils.CommonUsed
 
 class Adapter(private var adapterList: MutableList<ListItem>) :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -63,18 +65,28 @@ class Adapter(private var adapterList: MutableList<ListItem>) :
                     }
                 val drawable: Drawable = itemHolder.context.resources.getDrawable(R.drawable.delete)
                 itemHolder.cardview.setOnLongClickListener {
-                    MaterialDialog(itemHolder.context).show {
-                        title(text = "Delete?")
-                        icon(drawable = drawable)
-                        message(text = "Are you sure you want to delete it?")
-                        positiveButton(text = "Yes") {
-                            adapterList.removeAt(position)
-                            ref?.removeValue()
+                    if (CommonUsed.checkConnectivity(itemHolder.context))
+                        MaterialDialog(itemHolder.context).show {
+                            title(text = "Delete?")
+                            icon(drawable = drawable)
+                            message(text = "Are you sure you want to delete it?")
+                            positiveButton(text = "Yes") {
+                                adapterList.removeAt(position)
+                                ref?.removeValue()
 
+                            }
+                            negativeButton(text = "Cancel")
                         }
-                        negativeButton(text = "Cancel")
-                    }
                     true
+                }
+
+                itemHolder.cardview.setOnClickListener {
+                    itemHolder.context.startActivity(
+                        PasswordAdd.newInstance(
+                            itemHolder.context,
+                            generalItem.password
+                        )
+                    )
                 }
             }
 

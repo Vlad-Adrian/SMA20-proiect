@@ -24,6 +24,7 @@
     <string name="copy">Copy</string>
     <string name="link">Website Link</string>
     <string name="note">Notes</string>
+    <string name="save">Save</string>
 
     //Password page
     <string name="emptyDb">No Passwords added yet</string>

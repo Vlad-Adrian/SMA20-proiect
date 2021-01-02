@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment
 import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import com.vlad.passKeeper.ui.LoginActivity
 import com.vlad.passKeeper.ui.PasswordAdd
 import com.vlad.passKeeper.ui.fragments.NotesFragment
@@ -26,7 +25,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+
 
         navigation = findViewById(R.id.navigation)
         toolbar = findViewById(R.id.toolbar)
@@ -86,11 +85,11 @@ class MainActivity : AppCompatActivity() {
             }
 
             R.id.logout -> {
-                MaterialDialog(this).show{
+                MaterialDialog(this).show {
                     title(text = "Log out?")
                     icon(drawable = drawable)
                     message(text = "Are you sure you want to log out?")
-                    positiveButton(text = "Yes"){
+                    positiveButton(text = "Yes") {
                         auth.signOut()
                         startActivity(Intent(baseContext, LoginActivity::class.java))
                         this@MainActivity.finish()
