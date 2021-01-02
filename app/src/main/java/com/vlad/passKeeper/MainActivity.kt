@@ -13,6 +13,7 @@ import com.afollestad.materialdialogs.MaterialDialog
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.firebase.auth.FirebaseAuth
 import com.vlad.passKeeper.ui.LoginActivity
+import com.vlad.passKeeper.ui.NoteAdd
 import com.vlad.passKeeper.ui.PasswordAdd
 import com.vlad.passKeeper.ui.SearchActivity
 import com.vlad.passKeeper.ui.fragments.NotesFragment
@@ -64,6 +65,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu, menu)
+
         return true
     }
 
@@ -74,7 +76,7 @@ class MainActivity : AppCompatActivity() {
             R.id.add -> {
                 if (fragmentManager?.isVisible == true)
                     startActivity(Intent(this, PasswordAdd::class.java))
-                else Toast.makeText(this, "Add notes", Toast.LENGTH_SHORT).show()
+                else startActivity(Intent(this, NoteAdd::class.java))
                 true
             }
 

@@ -2,6 +2,7 @@ package com.vlad.passKeeper.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
@@ -46,6 +47,17 @@ class PasswordsFragment : Fragment() {
         return view
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        val item = menu.findItem(R.id.search)
+        item.setVisible(true)
+    }
+
     override fun onResume() {
         super.onResume()
         databaseReference.addValueEventListener(object : ValueEventListener {
@@ -53,7 +65,8 @@ class PasswordsFragment : Fragment() {
                 passwords.clear()//wihtout this it would duplicate entries
                 for (el in snapshot.children) {
                     println("${el.value} si ${el.key}")
-                    el.getValue<Password>(Password::class.java)?.let { passwords.add(it) }
+                    if (!el.key.equals("notes"))
+                        el.getValue<Password>(Password::class.java)?.let { passwords.add(it) }
                 }
                 if (passwords.size == 0) {
                     recyclerView.visibility = View.GONE

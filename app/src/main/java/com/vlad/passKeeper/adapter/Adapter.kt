@@ -53,10 +53,6 @@ class Adapter(private var adapterList: MutableList<ListItem>) :
                 } else {
                     itemHolder.title_text.text = generalItem.password?.name
                 }
-
-                itemHolder.cardview.setOnClickListener {
-                    //TODO(must implement open the password)
-                }
                 val ref =
                     FirebaseAuth.getInstance().currentUser?.let {
                         generalItem.password?.name?.let { name ->
