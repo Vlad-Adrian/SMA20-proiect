@@ -1,5 +1,6 @@
 package com.vlad.passKeeper.ui.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.Menu
@@ -23,7 +24,7 @@ import java.util.*
 class PasswordsFragment : Fragment() {
     private lateinit var databaseReference: DatabaseReference
     private lateinit var recyclerView: RecyclerView
-    private var user: FirebaseUser? = null
+    private lateinit var user: String
     private var passwords = mutableListOf<Password>()
     private lateinit var textView: TextView
     val adapterList = mutableListOf<ListItem>()
@@ -35,14 +36,18 @@ class PasswordsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.list, container, false)
-        user = FirebaseAuth.getInstance().currentUser
+        user = FirebaseAuth.getInstance().currentUser?.uid?:""
         recyclerView = view.findViewById(R.id.listRecyclerView)
         textView = view.findViewById(R.id.textView)
         recyclerView.layoutManager = LinearLayoutManager(context)
         adapter = Adapter(adapterList)
         recyclerView.adapter = adapter
 
-        databaseReference = FirebaseDatabase.getInstance().reference.child(user?.uid ?: "")
+        if(user ==""){
+            val sharedPreferences = activity?.getSharedPreferences("myshared", 0)
+            user = sharedPreferences?.getString("uid", "")?:""
+        }
+        databaseReference = FirebaseDatabase.getInstance().reference.child(user)
 
         return view
     }
@@ -55,7 +60,7 @@ class PasswordsFragment : Fragment() {
     override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
         val item = menu.findItem(R.id.search)
-        item.setVisible(true)
+        item.isVisible = true
     }
 
     override fun onResume() {
@@ -66,7 +71,7 @@ class PasswordsFragment : Fragment() {
                 for (el in snapshot.children) {
                     println("${el.value} si ${el.key}")
                     if (!el.key.equals("notes"))
-                        el.getValue<Password>(Password::class.java)?.let { passwords.add(it) }
+                        el.getValue(Password::class.java)?.let { passwords.add(it) }
                 }
                 if (passwords.size == 0) {
                     recyclerView.visibility = View.GONE

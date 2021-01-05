@@ -18,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase
 import com.vlad.passKeeper.MainActivity
 import com.vlad.passKeeper.R
 import com.vlad.passKeeper.utils.CommonUsed
+import com.vlad.passKeeper.utils.Encryption
 
 class LoginActivity : AppCompatActivity() {
     private var email: EditText? = null
@@ -33,8 +34,7 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login_activity)
-        sharedPreferences = getPreferences(Context.MODE_PRIVATE)
-        setFirstUse()
+        sharedPreferences = getSharedPreferences("myshared", 0)
 
         email = findViewById(R.id.email)
         pass = findViewById(R.id.password)
@@ -48,7 +48,13 @@ class LoginActivity : AppCompatActivity() {
             if (CommonUsed.checkConnectivity(this)) login(
                 email?.text.toString(),
                 pass?.text.toString()
-            )
+            ) else {
+                if (getCredsSharedPrefs()) {
+                    Toast.makeText(this, "Nice! You are in!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this, MainActivity::class.java))
+                    this.finish()
+                }
+            }
         }
         registerButton?.setOnClickListener {
             startActivity(
@@ -98,13 +104,38 @@ class LoginActivity : AppCompatActivity() {
 
     }
 
-    private fun setFirstUse() {
-        if (!sharedPreferences.getBoolean("firstStart", false)) {
+    private fun saveCredsSharedPrefs(username: String, password: String, uid: String) {
+        if (sharedPreferences.getString("credentials", "")?.isEmpty() == true) {
             with(sharedPreferences.edit()) {
-                putBoolean("firstStart", true)
+                putString(
+                    "credentials",
+                    Encryption.encrypt("$username $password", "662ede816988e58fb6d057d9d85605e0")
+                )
                 apply()
             }
-            FirebaseDatabase.getInstance().setPersistenceEnabled(true)
+        }
+        with(sharedPreferences.edit()){
+            putString(
+                "uid",
+                uid
+            )
+            commit()
+        }
+    }
+
+    private fun getCredsSharedPrefs(): Boolean {
+        val username: String
+        val pass: String
+        if (sharedPreferences.getString("credentials", "")?.isNotEmpty() == true) {
+            var concatenated = sharedPreferences.getString("credentials", "")
+            concatenated =
+                Encryption.decryptWithAES("662ede816988e58fb6d057d9d85605e0", concatenated)
+            username = concatenated?.split(" ")?.get(0) ?: " "
+            pass = concatenated?.split(" ")?.get(1) ?: " "
+            return username == this.email?.text.toString() && pass == this.pass?.text.toString()
+        }else{
+            Toast.makeText(this, "Please first login when you have internet conn", Toast.LENGTH_SHORT).show()
+            return false
         }
     }
 
@@ -117,6 +148,11 @@ class LoginActivity : AppCompatActivity() {
                     if (task.isSuccessful) {
                         Toast.makeText(this, "Nice! You are in!", Toast.LENGTH_SHORT).show()
                         startActivity(Intent(this, MainActivity::class.java))
+                        saveCredsSharedPrefs(
+                            this.email?.text.toString(),
+                            this.pass?.text.toString(),
+                            FirebaseAuth.getInstance().currentUser?.uid?:""
+                        )
                         this.finish()
                     } else {
                         Log.w("login_attempt", "signInWithEmail:failure", task.exception)

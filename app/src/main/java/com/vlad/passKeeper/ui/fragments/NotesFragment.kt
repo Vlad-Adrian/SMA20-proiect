@@ -28,9 +28,14 @@ class NotesFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.notes_fragment, container, false)
+        val sharedPreferences = activity?.getSharedPreferences("myshared", 0)
 
 
         firebaseUser = FirebaseAuth.getInstance().uid ?: ""
+        if (firebaseUser == "") {
+
+            firebaseUser = sharedPreferences?.getString("uid", "") ?: ""
+        }
         databaseReference =
             FirebaseDatabase.getInstance().reference.child(firebaseUser).child("notes")
         recyclerViewNote = view.findViewById(R.id.notesListRecyclerView)
